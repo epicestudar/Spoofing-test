@@ -1,0 +1,25 @@
+Resources:
+  SendAndLogFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SendAndLogFunction
+      Handler: src/handler.sendAndLog
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 30
+      Environment:
+        Variables:
+          SENDER_EMAIL: no-reply@minhaempresa.com
+          LOG_TABLE: SpoofingLogs
+      Events:
+        SendEndpoint:
+          Type: Api
+          Properties:
+            Path: /send
+            Method: POST
+      Policies:
+      - AmazonSESFullAccess
+      - AmazonDynamoDBFullAccess
+      CodeUri: SendAndLogFunction
+    Metadata:
+      SamResourceId: SendAndLogFunction
