@@ -9,8 +9,8 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          SENDER_EMAIL: no-reply@minhaempresa.com
-          LOG_TABLE: SpoofingLogs
+          SENDER_EMAIL: ribac15208@harinv.com
+          LOG_TABLE: EmailLogs
       Events:
         SendEndpoint:
           Type: Api

@@ -30,7 +30,7 @@ exports.sendAndLog = async (event) => {
 
     const emailResponse = await ses.sendEmail(emailParams).promise();
 
-    console.log("Email enviado com sucesso:", emailResult);
+    console.log("Email enviado com sucesso:", emailResponse);
 
     // Log no DynamoDB
     const logItem = {
