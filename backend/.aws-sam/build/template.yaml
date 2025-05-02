@@ -20,6 +20,7 @@ Resources:
             Cors:
               AllowOrigins: '''http://localhost:3000'''
               AllowHeaders: '''Content-Type'''
+              AllowMethods: '''OPTIONS,POST'''
       Policies:
       - AmazonSESFullAccess
       - AmazonDynamoDBFullAccess
