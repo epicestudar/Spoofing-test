@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
 
-const ses = new AWS.SES({ region: "sa-east-1" });
+const ses = new AWS.SES({ region: "us-east-1" });
 const dynamo = new AWS.DynamoDB.DocumentClient();
 
 exports.sendAndLog = async (event) => {

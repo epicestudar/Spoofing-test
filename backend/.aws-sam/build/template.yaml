@@ -9,7 +9,7 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          SENDER_EMAIL: ribac15208@harinv.com
+          SENDER_EMAIL: nayiya1429@harinv.com
           LOG_TABLE: EmailLogs
       Events:
         SendEndpoint:
@@ -17,6 +17,9 @@ Resources:
           Properties:
             Path: /send
             Method: POST
+            Cors:
+              AllowOrigins: '''http://localhost:3000'''
+              AllowHeaders: '''Content-Type'''
       Policies:
       - AmazonSESFullAccess
       - AmazonDynamoDBFullAccess
