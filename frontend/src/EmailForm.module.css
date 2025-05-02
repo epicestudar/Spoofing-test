@@ -1,120 +1,207 @@
 .container {
-    position: relative;
-    min-height: 100vh;
-    background: url('./assets/bg.png') center/cover no-repeat;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #4c1d95;
+    /* Cor roxa escura */
+    position: relative;
+    overflow: hidden;
 }
 
+.formWrapper {
+    width: 100%;
+    max-width: 800px;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Background circles */
+.backgroundElements {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.circle1 {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    top: -80px;
+    right: -80px;
+    background-color: #6d28d9;
+    opacity: 0.5;
+    border-radius: 50%;
+}
+
+.circle2 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: -80px;
+    left: -80px;
+    background-color: #5b21b6;
+    opacity: 0.4;
+    border-radius: 50%;
+}
+
+.circle3 {
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    right: 0;
+    bottom: 0;
+    background-color: #7c3aed;
+    opacity: 0.3;
+    border-radius: 50%;
+}
+
+/* Header style */
 .header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    z-index: 1;
+    margin-bottom: 32px;
 }
 
 .logoGroup {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: 12px;
+}
+
+.logoOpsteam {
+    height: 40px;
+    border-radius: 6px;
+    background-color: #000;
+    padding: 4px;
+}
+
+.badgeAws {
+    height: 40px;
+    border-radius: 6px;
+    background-color: #fff;
+    padding: 2px;
+}
+
+.menuIconContainer {
+    background-color: transparent;
 }
 
 .menuIcon {
-    font-size: 1.5rem;
-    color: #000;
+    font-size: 1.8rem;
+    color: white;
     cursor: pointer;
 }
 
-.overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 0;
-}
-
-.card {
+/* Form content */
+.formContent {
     position: relative;
-    z-index: 1;
-    margin: auto;
-    background: rgba(128, 29, 209, 0.85);
-    /* tom de roxo semitransparente */
-    border-radius: 1rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-    color: #fff;
+    z-index: 10;
 }
 
 .title {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
+}
+
+.formFields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .field {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 16px;
 }
 
 .fieldIcon {
     position: absolute;
     top: 50%;
-    left: 1rem;
+    left: 16px;
     transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: rgba(0, 0, 0, 0.7);
+    font-size: 1.3rem;
+    color: #4c1d95;
+    z-index: 2;
 }
 
 .input,
 .textarea {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 3rem;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 0.75rem;
-    color: #000;
-    font-size: 1rem;
+    padding: 12px 16px 12px 48px;
+    border-radius: 9999px;
+    background-color: rgba(243, 232, 255, 0.7);
+    border: none;
     outline: none;
-}
-
-.input::placeholder,
-.textarea::placeholder {
-    color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
+    color: #000;
 }
 
 .input:focus,
 .textarea:focus {
-    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: rgba(76, 29, 149, 0.6);
 }
 
 .textarea {
-    height: 8rem;
-    resize: none;
+    min-height: 100px;
+    border-radius: 24px;
+    resize: vertical;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
 }
 
 .button {
-    width: 100%;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 0.75rem;
-    color: #000;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
+    padding: 12px 64px;
+    border-radius: 9999px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    font-size: 16px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background-color 0.3s;
+    font-weight: 600;
 }
 
 .button:hover {
-    background: rgba(255, 255, 255, 0.6);
+    background-color: rgba(91, 33, 182, 0.6);
 }
 
 .status {
-    margin-top: 1rem;
+    margin-top: 16px;
     text-align: center;
     font-size: 0.875rem;
     color: #fff;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .formWrapper {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .circle1,
+    .circle2,
+    .circle3 {
+        opacity: 0.3;
+    }
 }

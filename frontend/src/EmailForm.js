@@ -29,60 +29,79 @@ export default function EmailForm() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.logoGroup}>
-          <img src={logoOpsteam} alt="Opsteam" height={40} />
-          <img src={badgeAws} alt="AWS Partner" height={40} />
-        </div>
-        <FiMenu className={styles.menuIcon} />
+      {/* Background circles */}
+      <div className={styles.backgroundElements}>
+        <div className={styles.circle1}></div>
+        <div className={styles.circle2}></div>
+        <div className={styles.circle3}></div>
       </div>
 
-      <div className={styles.overlay} />
-
-      <form onSubmit={handleSubmit} className={styles.card}>
-        <h2 className={styles.title}>Formulário</h2>
-
-        <div className={styles.field}>
-          <FiAtSign className={styles.fieldIcon} />
-          <input
-            type="email"
-            placeholder="Destinatário"
-            className={styles.input}
-            value={to}
-            onChange={(e) => setTo(e.target.value)}
-            required
-          />
+      <div className={styles.formWrapper}>
+        {/* Header com Logo */}
+        <div className={styles.header}>
+          <div className={styles.logoGroup}>
+            <img
+              src={logoOpsteam}
+              alt="Opsteam"
+              className={styles.logoOpsteam}
+            />
+            <img src={badgeAws} alt="AWS Partner" className={styles.badgeAws} />
+          </div>
+          <div className={styles.menuIconContainer}>
+            <FiMenu className={styles.menuIcon} />
+          </div>
         </div>
 
-        <div className={styles.field}>
-          <FiMessageSquare className={styles.fieldIcon} />
-          <input
-            type="text"
-            placeholder="Assunto"
-            className={styles.input}
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            required
-          />
+        {/* Conteúdo do Formulário */}
+        <div className={styles.formContent}>
+          <h2 className={styles.title}>Formulário</h2>
+
+          <form onSubmit={handleSubmit} className={styles.formFields}>
+            <div className={styles.field}>
+              <FiAtSign className={styles.fieldIcon} />
+              <input
+                type="email"
+                placeholder="Destinatário"
+                className={styles.input}
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className={styles.field}>
+              <FiMessageSquare className={styles.fieldIcon} />
+              <input
+                type="text"
+                placeholder="Assunto"
+                className={styles.input}
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className={styles.field}>
+              <FiMail className={styles.fieldIcon} />
+              <textarea
+                placeholder="Mensagem"
+                className={styles.textarea}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className={styles.buttonContainer}>
+              <button type="submit" className={styles.button}>
+                Enviar
+              </button>
+            </div>
+
+            {status && <p className={styles.status}>{status}</p>}
+          </form>
         </div>
-
-        <div className={styles.field}>
-          <FiMail className={styles.fieldIcon} />
-          <textarea
-            placeholder="Mensagem"
-            className={styles.textarea}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit" className={styles.button}>
-          Enviar
-        </button>
-
-        {status && <p className={styles.status}>{status}</p>}
-      </form>
+      </div>
     </div>
   );
 }
