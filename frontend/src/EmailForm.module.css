@@ -1,0 +1,120 @@
+.container {
+    position: relative;
+    min-height: 100vh;
+    background: url('./assets/bg.png') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 1;
+}
+
+.logoGroup {
+    display: flex;
+    gap: 1rem;
+}
+
+.menuIcon {
+    font-size: 1.5rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+.card {
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    background: rgba(128, 29, 209, 0.85);
+    /* tom de roxo semitransparente */
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    color: #fff;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.field {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.fieldIcon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 0.75rem;
+    color: #000;
+    font-size: 1rem;
+    outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.textarea {
+    height: 8rem;
+    resize: none;
+}
+
+.button {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 0.75rem;
+    color: #000;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.status {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #fff;
+}
