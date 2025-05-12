@@ -10,10 +10,10 @@ Resources:
       Timeout: 30
       Environment:
         Variables:
-          SENDER_EMAIL: nayiya1429@harinv.com
+          SENDER_EMAIL: lucas@localhost
           LOG_TABLE: EmailLogs
-          SMTP_HOST: localhost
-          SMTP_PORT: 587
+          SMTP_HOST: 172.31.107.3
+          SMTP_PORT: 25
       Events:
         SendEndpoint:
           Type: Api
