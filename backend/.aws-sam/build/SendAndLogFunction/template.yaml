@@ -3,6 +3,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SendAndLogFunction
+      CodeUri: .                        # <-- inclua isto
       Handler: src/handler.sendAndLog
       Runtime: nodejs18.x
       MemorySize: 128
@@ -11,6 +12,8 @@ Resources:
         Variables:
           SENDER_EMAIL: nayiya1429@harinv.com
           LOG_TABLE: EmailLogs
+          SMTP_HOST: 172.17.0.1
+          SMTP_PORT: 587
       Events:
         SendEndpoint:
           Type: Api
@@ -22,5 +25,4 @@ Resources:
               AllowHeaders: "'Content-Type'"
               AllowMethods: "'OPTIONS,POST'"
       Policies:
-        - AmazonSESFullAccess
         - AmazonDynamoDBFullAccess

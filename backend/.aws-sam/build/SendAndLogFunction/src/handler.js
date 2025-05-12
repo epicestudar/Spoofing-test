@@ -1,8 +1,24 @@
-const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
+const nodemailer = require("nodemailer");
+const AWS = require("aws-sdk");
 
-const ses = new AWS.SES({ region: "us-east-1" });
 const dynamo = new AWS.DynamoDB.DocumentClient();
+
+console.log("Variáveis de ambiente:");
+console.log("SMTP_HOST:", process.env.SMTP_HOST);
+console.log("SMTP_PORT:", process.env.SMTP_PORT);
+console.log("SENDER_EMAIL:", process.env.SENDER_EMAIL);
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST, // Exemplo: 'mail.ops.team' ou 'localhost'
+  port: process.env.SMTP_PORT, // Exemplo: 587
+  secure: false, // Não usa TLS por padrão em 587, deixa como `false`
+  // Removido o bloco de autenticação, pois não é necessário sem autenticação
+  // auth: {
+  //   user: process.env.SMTP_USER,
+  //   pass: process.env.SMTP_PASS,
+  // },
+});
 
 exports.sendAndLog = async (event) => {
   console.log("Lambda iniciado");
@@ -12,23 +28,17 @@ exports.sendAndLog = async (event) => {
 
     const { to, subject, message } = body;
 
-    // Envio do e-mail
-    const emailParams = {
-      Source: process.env.SENDER_EMAIL, // ex: "no-reply@minhaempresa.com"
-      Destination: {
-        ToAddresses: [to],
-      },
-      Message: {
-        Subject: { Data: subject },
-        Body: {
-          Text: { Data: message },
-        },
-      },
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL, // O e-mail de origem (exemplo: "no-reply@ops.team")
+      to,
+      subject,
+      text: message,
     };
 
-    console.log("Enviando email via SES...");
+    console.log("Enviando email via Postfix (SMTP)...");
 
-    const emailResponse = await ses.sendEmail(emailParams).promise();
+    // Enviando o e-mail sem autenticação
+    const emailResponse = await transporter.sendMail(mailOptions);
 
     console.log("Email enviado com sucesso:", emailResponse);
 
@@ -40,7 +50,7 @@ exports.sendAndLog = async (event) => {
       subject,
       message,
       result: "success",
-      messageId: emailResponse.MessageId,
+      messageId: emailResponse.messageId,
     };
 
     console.log("Salvando log no DynamoDB...");
@@ -52,11 +62,11 @@ exports.sendAndLog = async (event) => {
       })
       .promise();
 
-      console.log("Log salvo com sucesso");
+    console.log("Log salvo com sucesso");
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ ok: true, messageId: emailResponse.MessageId }),
+      body: JSON.stringify({ ok: true, messageId: emailResponse.messageId }),
     };
   } catch (error) {
     console.error("Erro:", error);
