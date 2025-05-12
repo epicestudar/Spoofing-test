@@ -2,12 +2,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 96vh;
     background-color: #4c1d95;
     /* Cor roxa escura */
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
+    padding: 0px;
+    background-image: url('./assets/bg.png');
+    background-position: top+center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
 }
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); 
+  z-index: -1; 
+}
+
 
 .formWrapper {
     width: 100%;
@@ -17,83 +37,98 @@
     z-index: 2;
 }
 
-/* Background circles */
-.backgroundElements {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-}
 
-.circle1 {
-    position: absolute;
-    width: 380px;
-    height: 380px;
-    top: -80px;
-    right: -80px;
-    background-color: #6d28d9;
-    opacity: 0.5;
-    border-radius: 50%;
-}
-
-.circle2 {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    bottom: -80px;
-    left: -80px;
-    background-color: #5b21b6;
-    opacity: 0.4;
-    border-radius: 50%;
-}
-
-.circle3 {
-    position: absolute;
-    width: 75%;
-    height: 75%;
-    right: 0;
-    bottom: 0;
-    background-color: #7c3aed;
-    opacity: 0.3;
-    border-radius: 50%;
-}
 
 /* Header style */
 .header {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(8px);
+  z-index: 10;
 }
 
+
+
 .logoGroup {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  margin-left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .logoOpsteam {
-    height: 40px;
-    border-radius: 6px;
-    background-color: #000;
-    padding: 4px;
+    height: 60px;
 }
 
 .badgeAws {
-    height: 40px;
-    border-radius: 6px;
-    background-color: #fff;
-    padding: 2px;
+    height: 60px;
 }
 
-.menuIconContainer {
-    background-color: transparent;
-}
 
+.menuWrapper {
+  margin-right: 100px;
+}
 .menuIcon {
-    font-size: 1.8rem;
-    color: white;
-    cursor: pointer;
+    background: none;
+  border: none;
+  font-size: 19px;
+  cursor: pointer;
+  color: white;
+  position: relative;
+}
+
+.fullscreenMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  z-index: 999;
+  color: white;
+}
+
+.menuItems {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.menuItem {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.menuItem:hover {
+  transform: scale(1.05);
+}
+
+.closeButton {
+  position: fixed;
+  top: 15px;
+  right: 25px;
+  width: 55px;
+  height: 45px;
+  font-size: 25px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
 }
 
 /* Form content */
