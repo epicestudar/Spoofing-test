@@ -19,7 +19,7 @@ export default function EmailForm() {
       const res = await fetch("/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ to, subject, message }),
+        body: JSON.stringify({ from ,to, subject, message }),
       });
       const data = await res.json();
       if (data.ok) setStatus(`✅ Enviado! ID: ${data.messageId}`);
