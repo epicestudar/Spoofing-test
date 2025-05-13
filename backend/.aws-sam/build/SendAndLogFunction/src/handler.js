@@ -13,6 +13,9 @@ const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST, // Exemplo: 'mail.ops.team' ou 'localhost'
   port: process.env.SMTP_PORT, // Exemplo: 587
   secure: false, // Não usa TLS por padrão em 587, deixa como `false`
+  tls: {
+      rejectUnauthorized: false, // Ignorar problemas de certificado (para teste local)
+    },
   // Removido o bloco de autenticação, pois não é necessário sem autenticação
   // auth: {
   //   user: process.env.SMTP_USER,

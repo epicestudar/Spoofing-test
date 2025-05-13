@@ -8,10 +8,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "nodemailer": "^7.0.3",
     "uuid": "^11.1.0"
-  }
+  },
+  "description": ""
 }
