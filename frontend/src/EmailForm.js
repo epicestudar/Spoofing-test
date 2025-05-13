@@ -5,6 +5,7 @@ import logoOpsteam from "./assets/opsteam.webp";
 import badgeAws from "./assets/badge.png";
 
 export default function EmailForm() {
+  const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -59,6 +60,17 @@ export default function EmailForm() {
           <h2 className={styles.title}>Formulário</h2>
 
           <form onSubmit={handleSubmit} className={styles.formFields}>
+            <div className={styles.field}>
+              <FiAtSign className={styles.fieldIcon} />
+              <input
+                type="email"
+                placeholder="Remetente"
+                className={styles.input}
+                value={from}
+                onChange={(e) => setFrom(e.target.value)}
+                required
+              />
+            </div>
             <div className={styles.field}>
               <FiAtSign className={styles.fieldIcon} />
               <input
