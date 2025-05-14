@@ -21,7 +21,7 @@ Resources:
             Path: /send
             Method: POST
             Cors:
-              AllowOrigins: "'http://localhost:3000'"
+              AllowOrigins: "'https://d32uo9ncvvsdm7.cloudfront.net'"
               AllowHeaders: "'Content-Type'"
               AllowMethods: "'OPTIONS,POST'"
       Policies:

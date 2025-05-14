@@ -16,10 +16,10 @@ export default function EmailForm() {
     e.preventDefault();
     setStatus("Enviando...");
     try {
-      const res = await fetch("/send", {
+      const res = await fetch("https://d32uo9ncvvsdm7.cloudfront.net/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ from ,to, subject, message }),
+        body: JSON.stringify({ from, to, subject, message }),
       });
       const data = await res.json();
       if (data.ok) setStatus(`✅ Enviado! ID: ${data.messageId}`);
