@@ -3,7 +3,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SendAndLogFunction
-      CodeUri: .                        # <-- inclua isto
+      CodeUri: SendAndLogFunction
       Handler: src/handler.sendAndLog
       Runtime: nodejs18.x
       MemorySize: 128
@@ -21,8 +21,10 @@ Resources:
             Path: /send
             Method: POST
             Cors:
-              AllowOrigins: "'http://localhost:3000'"
-              AllowHeaders: "'Content-Type'"
-              AllowMethods: "'OPTIONS,POST'"
+              AllowOrigins: '''http://localhost:3000'''
+              AllowHeaders: '''Content-Type'''
+              AllowMethods: '''OPTIONS,POST'''
       Policies:
-        - AmazonDynamoDBFullAccess
+      - AmazonDynamoDBFullAccess
+    Metadata:
+      SamResourceId: SendAndLogFunction
