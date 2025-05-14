@@ -29,10 +29,10 @@ exports.sendAndLog = async (event) => {
     const body = JSON.parse(event.body);
     console.log("Body recebido:", body);
 
-    const { to, subject, message } = body;
+    const { from, to, subject, message } = body;
 
     const mailOptions = {
-      from: process.env.SENDER_EMAIL, // O e-mail de origem (exemplo: "no-reply@ops.team")
+      from, // pega do body
       to,
       subject,
       text: message,
