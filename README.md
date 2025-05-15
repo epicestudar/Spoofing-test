@@ -84,3 +84,26 @@ A requisição **POST** é enviada para o endpoint `/send`, exposto pela **API G
 
 
 
+<div align=center>
+  <table style="width: 100%">
+    <tbody>
+      <tr align=center>
+        <th><strong> Vinícius G. Feitoza </br> epicestudar </strong></th>
+        <th><strong> Lucas Robiati </br> Casiati </strong></th>
+      </tr>
+      <tr align=center>
+        <td>
+          <a href="https://github.com/epicestudar">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/epicestudar">
+          </a>
+        </td>
+        <td>
+          <a href="https://github.com/Casiati">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Casiati">
+          </a>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
