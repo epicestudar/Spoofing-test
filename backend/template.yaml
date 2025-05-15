@@ -3,14 +3,16 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SendAndLogFunction
+      CodeUri: .                        
       Handler: src/handler.sendAndLog
       Runtime: nodejs18.x
       MemorySize: 128
       Timeout: 30
       Environment:
         Variables:
-          SENDER_EMAIL: nayiya1429@harinv.com
           LOG_TABLE: EmailLogs
+          SMTP_HOST: localhost # mudar para host do servidor postfix
+          SMTP_PORT: 25
       Events:
         SendEndpoint:
           Type: Api
@@ -18,9 +20,8 @@ Resources:
             Path: /send
             Method: POST
             Cors:
-              AllowOrigins: "'http://localhost:3000'"
+              AllowOrigins: "'localhost:3000'" # mudar para o domínio do frontend (cloudfront)
               AllowHeaders: "'Content-Type'"
               AllowMethods: "'OPTIONS,POST'"
       Policies:
-        - AmazonSESFullAccess
         - AmazonDynamoDBFullAccess
