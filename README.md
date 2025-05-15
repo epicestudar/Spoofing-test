@@ -76,13 +76,7 @@ A requisição **POST** é enviada para o endpoint `/send`, exposto pela **API G
 
 ---
 
-## 📝 Observações Finais
-
-> Este projeto é de uso restrito para fins de **teste controlado** em ambientes autorizados.  
-> O envio de e-mails forjados deve sempre respeitar **normas legais e éticas**.  
-> O uso indevido pode violar **políticas da AWS** e **legislações locais**.
-
-
+## 🧠 Desenvolvedores do Projeto
 
 <div align=center>
   <table style="width: 100%">
@@ -107,3 +101,10 @@ A requisição **POST** é enviada para o endpoint `/send`, exposto pela **API G
 
   </table>
 </div>
+
+
+## 📝 Observações Finais
+
+> Este projeto é de uso restrito para fins de **teste controlado** em ambientes autorizados.  
+> O envio de e-mails forjados deve sempre respeitar **normas legais e éticas**.  
+> O uso indevido pode violar **políticas da AWS** e **legislações locais**.
