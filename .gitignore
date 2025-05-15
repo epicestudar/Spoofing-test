@@ -400,5 +400,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 
-backend/.env.production
-frontend/.env
+backend/.env
+frontend/.env.production

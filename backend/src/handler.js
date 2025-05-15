@@ -7,11 +7,10 @@ const dynamo = new AWS.DynamoDB.DocumentClient();
 console.log("Variáveis de ambiente:");
 console.log("SMTP_HOST:", process.env.SMTP_HOST);
 console.log("SMTP_PORT:", process.env.SMTP_PORT);
-console.log("SENDER_EMAIL:", process.env.SENDER_EMAIL);
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST, // Exemplo: 'mail.ops.team' ou 'localhost'
-  port: process.env.SMTP_PORT, // Exemplo: 587
+  host: process.env.SMTP_HOST, 
+  port: process.env.SMTP_PORT, 
   secure: false, // Não usa TLS por padrão em 587, deixa como `false`
   tls: {
       rejectUnauthorized: false, // Ignorar problemas de certificado (para teste local)
