@@ -18,14 +18,15 @@
     background-repeat: no-repeat;
     z-index: -1;
 }
+
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4); 
-  z-index: -1; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
 }
 
 
@@ -41,27 +42,27 @@
 
 /* Header style */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  background-color: rgba(255, 255, 255, 0);
-  backdrop-filter: blur(8px);
-  z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(8px);
+    z-index: 10;
 }
 
 
 
 .logoGroup {
-  margin-left: 100px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
+    margin-left: 100px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .logoOpsteam {
@@ -74,61 +75,63 @@
 
 
 .menuWrapper {
-  margin-right: 100px;
+    margin-right: 100px;
 }
+
 .menuIcon {
     background: none;
-  border: none;
-  font-size: 19px;
-  cursor: pointer;
-  color: white;
-  position: relative;
+    border: none;
+    font-size: 19px;
+    cursor: pointer;
+    color: white;
+    position: relative;
 }
 
 .fullscreenMenu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(20, 20, 20, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  justify-content: center;
-  z-index: 999;
-  color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    color: white;
 }
 
 .menuItems {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  font-size: 24px;
-  font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .menuItem {
-  cursor: pointer;
-  transition: transform 0.2s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
+
 .menuItem:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .closeButton {
-  position: fixed;
-  top: 15px;
-  right: 25px;
-  width: 55px;
-  height: 45px;
-  font-size: 25px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0;
+    position: fixed;
+    top: 15px;
+    right: 25px;
+    width: 55px;
+    height: 45px;
+    font-size: 25px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
 }
 
 /* Form content */

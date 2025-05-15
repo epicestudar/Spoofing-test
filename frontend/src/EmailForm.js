@@ -11,12 +11,13 @@ export default function EmailForm() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Enviando...");
     try {
-      const res = await fetch("https://d32uo9ncvvsdm7.cloudfront.net/send", {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ from, to, subject, message }),
@@ -34,26 +35,40 @@ export default function EmailForm() {
       {/* Header com Logo */}
       <div className={styles.header}>
         <div className={styles.logoGroup}>
-          <img
-            src={logoOpsteam} alt="Opsteam" className={styles.logoOpsteam} />
+          <img src={logoOpsteam} alt="Opsteam" className={styles.logoOpsteam} />
           <img src={badgeAws} alt="AWS Partner" className={styles.badgeAws} />
         </div>
         <div className={styles.menuWrapper}>
-          <button className={styles.menuIcon} onClick={() => setMenuOpen(true)}>☰</button>
+          <button className={styles.menuIcon} onClick={() => setMenuOpen(true)}>
+            ☰
+          </button>
         </div>
         {menuOpen && (
-          <div className={`${styles.fullscreenMenu} ${menuOpen ? 'open' : ''}`}>
-            <button className={styles.closeButton} onClick={() => setMenuOpen(false)}>&times;</button>
+          <div className={`${styles.fullscreenMenu} ${menuOpen ? "open" : ""}`}>
+            <button
+              className={styles.closeButton}
+              onClick={() => setMenuOpen(false)}
+            >
+              &times;
+            </button>
 
             <div className={styles.menuItems}>
-               {/* <div className={styles.menuItem} onClick={() => { setStep(1); setMenuOpen(false); }}>/autenticação</div> 
+              {/* <div className={styles.menuItem} onClick={() => { setStep(1); setMenuOpen(false); }}>/autenticação</div> 
                <div className={styles.menuItem} onClick={() => { setStep(2); setMenuOpen(false); }}>/enviar_e-mail</div>*/}
-              <div className={styles.menuItem} onClick={() => { window.open('https://ops.team', '_blank'); setMenuOpen(false); }}>/ops.team</div>
+              <div
+                className={styles.menuItem}
+                onClick={() => {
+                  window.open("https://ops.team", "_blank");
+                  setMenuOpen(false);
+                }}
+              >
+                /ops.team
+              </div>
             </div>
           </div>
         )}
       </div>
-        <div className={styles.overlay}></div>
+      <div className={styles.overlay}></div>
       <div className={styles.formWrapper}>
         {/* Conteúdo do Formulário */}
         <div className={styles.formContent}>
