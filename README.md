@@ -6,6 +6,8 @@ O foco é auxiliar em auditorias e validação de infraestrutura de segurança d
 
 ---
 
+<br>
+
 ## 📬 O que este projeto faz
 
 Este sistema permite que um usuário envie um e-mail com um campo "From" personalizado, simulando diferentes cenários de spoofing. O envio é feito por uma função AWS Lambda, que utiliza um servidor SMTP próprio (Postfix em EC2) para encaminhar os e-mails.
@@ -13,6 +15,8 @@ Este sistema permite que um usuário envie um e-mail com um campo "From" persona
 Logs de cada envio são armazenados em uma tabela DynamoDB, possibilitando rastreamento e auditoria.
 
 ---
+
+<br>
 
 ## ☁️ Serviços AWS Utilizados
 
@@ -27,6 +31,8 @@ Logs de cada envio são armazenados em uma tabela DynamoDB, possibilitando rastr
 
 ---
 
+<br>
+
 ## 🧪 Tecnologias Utilizadas
 
 | Categoria         | Tecnologias                            |
@@ -39,6 +45,8 @@ Logs de cada envio são armazenados em uma tabela DynamoDB, possibilitando rastr
 
 ---
 
+<br>
+
 ## 🔐 Configurações de Segurança (DNS)
 
 - **SPF**: Define que apenas o IP do servidor SMTP pode enviar e-mails pelo domínio.
@@ -49,6 +57,8 @@ Logs de cada envio são armazenados em uma tabela DynamoDB, possibilitando rastr
 
 
 ---
+
+<br>
 
 ## 🚀 Deploy com AWS SAM
 
@@ -63,6 +73,8 @@ Após isso, a função **Lambda**, **API Gateway**, variáveis de ambiente e per
 
 ---
 
+<br>
+
 ## 💻 Uso do Frontend
 
 O formulário React permite preencher os seguintes campos:
@@ -75,6 +87,8 @@ O formulário React permite preencher os seguintes campos:
 A requisição **POST** é enviada para o endpoint `/send`, exposto pela **API Gateway**.
 
 ---
+
+<br>
 
 ## 🧠 Desenvolvedores do Projeto
 
@@ -101,6 +115,8 @@ A requisição **POST** é enviada para o endpoint `/send`, exposto pela **API G
 
   </table>
 </div>
+
+<br>
 
 
 ## 📝 Observações Finais
