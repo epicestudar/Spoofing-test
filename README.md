@@ -90,16 +90,22 @@ A requisição **POST** é enviada para o endpoint `/send`, exposto pela **API G
 
 <br>
 
-## 🧠 Desenvolvedores do Projeto
+## 🧠 Supervisor e Desenvolvedores do Projeto
 
 <div align=center>
   <table style="width: 100%">
     <tbody>
       <tr align=center>
-        <th><strong> Vinícius G. Feitoza </br> epicestudar </strong></th>
-        <th><strong> Lucas Robiati </br> Casiati </strong></th>
+        <th><strong> Natã Mourão </br> Supervisor </strong></th>
+        <th><strong> Vinícius G. Feitoza </br> Desenvolvedor </strong></th>
+        <th><strong> Lucas Robiati </br> Desenvolvedor </strong></th>
       </tr>
       <tr align=center>
+        <td>
+          <a href="https://github.com/natanxk">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/natanxk">
+          </a>
+        </td>
         <td>
           <a href="https://github.com/epicestudar">
             <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/epicestudar">
