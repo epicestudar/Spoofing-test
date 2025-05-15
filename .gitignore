@@ -401,4 +401,5 @@ FodyWeavers.xsd
 
 
 backend/.env
+backend/.aws-sam/
 frontend/.env.production
