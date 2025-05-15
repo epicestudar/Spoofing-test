@@ -1,6 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "DMARC Validator",
+  "name": "DMARC Validator",
+  "description": "A web application for validating DMARC records.",
+  "version": "1.0.0",
   "icons": [
     {
       "src": "favicon.ico",
