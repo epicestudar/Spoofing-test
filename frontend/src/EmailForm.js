@@ -11,7 +11,15 @@ export default function EmailForm() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  
   const API_URL = process.env.REACT_APP_API_URL;
+
+  const signOutRedirect = () => {
+    const clientId = "3cbq9ddkoo315uitikln08qji3";
+    const logoutUri = "http://localhost:3000/"; //TODO URL to redirect after logout
+    const cognitoDomain = "https://us-east-16qqfkl2rm.auth.us-east-1.amazoncognito.com";
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,6 +71,15 @@ export default function EmailForm() {
                 }}
               >
                 /ops.team
+              </div>
+              <div
+                className={styles.menuItem}
+                onClick={() => {
+                  signOutRedirect();
+                  setMenuOpen(false);
+                }}
+              >
+                /sair
               </div>
             </div>
           </div>
