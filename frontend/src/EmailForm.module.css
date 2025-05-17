@@ -2,10 +2,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 96vh;
+    min-height: 100vh;
     background-color: #4c1d95;
     /* Cor roxa escura */
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
