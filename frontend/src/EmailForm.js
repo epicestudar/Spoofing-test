@@ -15,6 +15,9 @@ export default function EmailForm() {
   const API_URL = process.env.REACT_APP_API_URL;
 
   const signOutRedirect = () => {
+    localStorage.clear(); // Limpa o localStorage
+    sessionStorage.clear(); // Limpa o sessionStorage
+
     const clientId = "3cbq9ddkoo315uitikln08qji3";
     const logoutUri = "http://localhost:3000/"; //TODO URL to redirect after logout
     const cognitoDomain = "https://us-east-16qqfkl2rm.auth.us-east-1.amazoncognito.com";
