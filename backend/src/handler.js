@@ -2,79 +2,260 @@ const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
 const AWS = require("aws-sdk");
 
+// DynamoDB client
 const dynamo = new AWS.DynamoDB.DocumentClient();
 
-console.log("Variáveis de ambiente:");
-console.log("SMTP_HOST:", process.env.SMTP_HOST);
-console.log("SMTP_PORT:", process.env.SMTP_PORT);
+// Variáveis de ambiente
+const PIN_TABLE = process.env.PIN_TABLE;
+const LOG_TABLE = process.env.LOG_TABLE;
+const SMTP_HOST = process.env.SMTP_HOST;
+const SMTP_PORT = Number(process.env.SMTP_PORT); // Garante que é número
 
+console.log("Config SMTP:", { SMTP_HOST, SMTP_PORT });
+console.log("Config DynamoDB:", { PIN_TABLE, LOG_TABLE });
+
+// Configuração do transporter SMTP
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST, 
-  port: process.env.SMTP_PORT, 
-  secure: false, // Não usa TLS por padrão em 587, deixa como `false`
-  tls: {
-      rejectUnauthorized: false, // Ignorar problemas de certificado (para teste local)
-    },
-  // Removido o bloco de autenticação, pois não é necessário sem autenticação
-  // auth: {
-  //   user: process.env.SMTP_USER,
-  //   pass: process.env.SMTP_PASS,
-  // },
+  host: SMTP_HOST,
+  port: SMTP_PORT,
+  secure: false,
+  tls: { rejectUnauthorized: false },
 });
 
-exports.sendAndLog = async (event) => {
-  console.log("Lambda iniciado");
+transporter
+  .verify()
+  .then(() => {
+    console.log("SMTP conectado com sucesso");
+  })
+  .catch((err) => {
+    console.error("Erro na verificação SMTP:", err);
+  });
+
+// CORS Headers padrão
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Methods": "OPTIONS,POST",
+};
+
+// Gera um PIN de 6 dígitos
+function generatePin() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// Valida formato de e-mail (simples)
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Função: Inicia a verificação
+exports.startVerification = async (event) => {
+  console.log("startVerification iniciado com body:", event.body);
+
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+    };
+  }
+
   try {
-    const body = JSON.parse(event.body);
-    console.log("Body recebido:", body);
+    const { email } = JSON.parse(event.body);
+    console.log("E-mail recebido para verificação:", email);
+    const from = email;
 
-    const { from, to, subject, message } = body;
+    if (!isValidEmail(from)) {
+      console.warn("E-mail inválido recebido:", from);
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({ ok: false, error: "E-mail inválido." }),
+      };
+    }
 
-    const mailOptions = {
-      from, // pega do body
+    const pin = generatePin();
+    const expiresAt = Math.floor(Date.now() / 1000) + 5 * 60; // 5 minutos
+    console.log("PIN gerado:", pin, "expira em:", expiresAt);
+
+    console.log("Gravando PIN no DynamoDB...");
+    await dynamo
+      .put({ TableName: PIN_TABLE, Item: { email: from, pin, expiresAt } })
+      .promise();
+    console.log("PIN gravado com sucesso");
+
+    console.log("Enviando e-mail com PIN...");
+    await transporter.sendMail({
+      from: "no-reply@ops.team",
+      to: from,
+      subject: "Seu PIN de verificação",
+      text: `Olá,\n\nSeu código de verificação é: ${pin}\n\nEle expira em 5 minutos.`,
+    });
+    console.log("E-mail enviado com sucesso");
+
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: true, message: "PIN enviado com sucesso!" }),
+    };
+  } catch (error) {
+    console.error("Erro ao iniciar verificação:", error);
+    return {
+      statusCode: 500,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: false, error: error.message }),
+    };
+  }
+};
+
+// Função: Verifica o PIN e envia e-mail
+exports.verifyAndSend = async (event) => {
+  console.log("verifyAndSend iniciado com body:", event.body);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: CORS_HEADERS };
+  }
+
+  try {
+    const { from, to, subject, message, pin } = JSON.parse(event.body);
+    console.log("Parâmetros recebidos:", { from, to, subject, pin });
+
+    if (!isValidEmail(from) || !isValidEmail(to)) {
+      console.warn("Endereço(s) de e-mail inválido(s):", { from, to });
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          ok: false,
+          error: "Endereço de e-mail inválido.",
+        }),
+      };
+    }
+
+    console.log("Buscando PIN no DynamoDB...");
+    const { Item } = await dynamo
+      .get({ TableName: PIN_TABLE, Key: { email: from } })
+      .promise();
+    console.log("Item recuperado do DynamoDB:", Item);
+
+    const now = Math.floor(Date.now() / 1000);
+
+    if (!Item || Item.pin !== pin || Item.expiresAt < now) {
+      console.warn("PIN inválido, inexistente ou expirado:", {
+        pin,
+        now,
+        item: Item,
+      });
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          ok: false,
+          error: "PIN não encontrado ou expirado.",
+        }),
+      };
+    }
+
+    console.log("PIN válido, enviando e-mail...");
+    const emailResponse = await transporter.sendMail({
+      from,
       to,
       subject,
       text: message,
-    };
+    });
+    console.log(
+      "E-mail enviado com sucesso, messageId:",
+      emailResponse.messageId
+    );
 
-    console.log("Enviando email via Postfix (SMTP)...");
-
-    // Enviando o e-mail sem autenticação
-    const emailResponse = await transporter.sendMail(mailOptions);
-
-    console.log("Email enviado com sucesso:", emailResponse);
-
-    // Log no DynamoDB
     const logItem = {
       id: uuidv4(),
       timestamp: Date.now(),
+      from,
       to,
       subject,
       message,
       result: "success",
       messageId: emailResponse.messageId,
     };
-
-    console.log("Salvando log no DynamoDB...");
-
-    await dynamo
-      .put({
-        TableName: process.env.LOG_TABLE,
-        Item: logItem,
-      })
-      .promise();
-
-    console.log("Log salvo com sucesso");
+    console.log("Gravando log no DynamoDB...");
+    await dynamo.put({ TableName: LOG_TABLE, Item: logItem }).promise();
+    console.log("Log gravado com sucesso");
 
     return {
       statusCode: 200,
+      headers: CORS_HEADERS,
       body: JSON.stringify({ ok: true, messageId: emailResponse.messageId }),
     };
   } catch (error) {
-    console.error("Erro:", error);
-
+    console.error("Erro ao verificar PIN e enviar e-mail:", error);
     return {
       statusCode: 500,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: false, error: error.message }),
+    };
+  }
+};
+
+// Função: Envio direto sem PIN (usado para testes ou bypass)
+exports.sendAndLog = async (event) => {
+  console.log("sendAndLog iniciado com body:", event.body);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: CORS_HEADERS };
+  }
+
+  try {
+    const { from, to, subject, message } = JSON.parse(event.body);
+    console.log("Parâmetros recebidos:", { from, to, subject });
+
+    if (!isValidEmail(from) || !isValidEmail(to)) {
+      console.warn("Endereço(s) de e-mail inválido(s):", { from, to });
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          ok: false,
+          error: "Endereço de e-mail inválido.",
+        }),
+      };
+    }
+
+    console.log("Enviando e-mail direto...");
+    const emailResponse = await transporter.sendMail({
+      from,
+      to,
+      subject,
+      text: message,
+    });
+    console.log(
+      "E-mail enviado com sucesso, messageId:",
+      emailResponse.messageId
+    );
+
+    const logItem = {
+      id: uuidv4(),
+      timestamp: Date.now(),
+      from,
+      to,
+      subject,
+      message,
+      result: "success",
+      messageId: emailResponse.messageId,
+    };
+    console.log("Gravando log no DynamoDB...");
+    await dynamo.put({ TableName: LOG_TABLE, Item: logItem }).promise();
+    console.log("Log gravado com sucesso");
+
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: true, messageId: emailResponse.messageId }),
+    };
+  } catch (error) {
+    console.error("Erro no envio direto:", error);
+    return {
+      statusCode: 500,
+      headers: CORS_HEADERS,
       body: JSON.stringify({ ok: false, error: error.message }),
     };
   }
