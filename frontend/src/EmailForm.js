@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./EmailForm.module.css";
 import { FiAtSign, FiMessageSquare, FiMail } from "react-icons/fi";
 import logoOpsteam from "./assets/opsteam.webp";
@@ -13,9 +13,38 @@ export default function EmailForm() {
   const [pin, setPin] = useState("");
   const [status, setStatus] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [pinSent, setPinSent] = useState(false); // controla se o PIN foi enviado
+  const [pinSent, setPinSent] = useState(false);
+  const [lastPinTime, setLastPinTime] = useState(null);
+  const [cooldownSecondsLeft, setCooldownSecondsLeft] = useState(0);
 
   const API_URL = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    const savedTime = localStorage.getItem("lastPinTime");
+    if (savedTime) {
+      const elapsed = Date.now() - parseInt(savedTime, 10);
+      if (elapsed < 60000) {
+        setLastPinTime(parseInt(savedTime, 10));
+        setCooldownSecondsLeft(Math.ceil((60000 - elapsed) / 1000));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    let interval;
+    if (cooldownSecondsLeft > 0) {
+      interval = setInterval(() => {
+        setCooldownSecondsLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [cooldownSecondsLeft]);
 
   const signOutRedirect = () => {
     localStorage.clear();
@@ -25,6 +54,15 @@ export default function EmailForm() {
 
   const handleStartPin = async (e) => {
     e.preventDefault();
+
+    const now = Date.now();
+    if (lastPinTime && now - lastPinTime < 60000) {
+      const secondsLeft = Math.ceil((60000 - (now - lastPinTime)) / 1000);
+      setCooldownSecondsLeft(secondsLeft);
+      setStatus(`⏱ Aguarde ${secondsLeft}s para reenviar o PIN.`);
+      return;
+    }
+
     setStatus("Enviando PIN de verificação...");
     try {
       const res = await fetch(`${API_URL}/start-verification`, {
@@ -36,6 +74,8 @@ export default function EmailForm() {
       if (data.ok) {
         setStatus("✅ PIN enviado. Verifique sua caixa de entrada.");
         setPinSent(true);
+        setLastPinTime(now);
+        localStorage.setItem("lastPinTime", now.toString());
       } else {
         setStatus(`❌ Erro ao enviar PIN: ${data.error}`);
       }
@@ -57,7 +97,8 @@ export default function EmailForm() {
       if (data.ok) {
         setStatus(`✅ E-mail enviado com sucesso! ID: ${data.messageId}`);
         setPinSent(false);
-        setPin(""); // limpa campo PIN
+        setPin("");
+        localStorage.removeItem("lastPinTime");
       } else {
         setStatus(`❌ Falha: ${data.error}`);
       }
@@ -68,7 +109,6 @@ export default function EmailForm() {
 
   return (
     <div className={styles.container}>
-      {/* Header com Logo */}
       <div className={styles.header}>
         <div className={styles.logoGroup}>
           <img src={logoOpsteam} alt="Opsteam" className={styles.logoOpsteam} />
@@ -121,21 +161,19 @@ export default function EmailForm() {
               <FiMessageSquare className={styles.fieldIcon} />
               <input
                 type="text"
-                placeholder="Assunto"
+                placeholder="Teste de Spoofing"
                 className={styles.input}
                 value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                required
+                readOnly
               />
             </div>
             <div className={styles.field}>
               <FiMail className={styles.fieldIcon} />
               <textarea
-                placeholder="Mensagem"
+                placeholder="Esté um teste de spoofing realizado pelo Opsteam. Não é um e-mail real."
                 className={styles.textarea}
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
+                readOnly
               />
             </div>
 
