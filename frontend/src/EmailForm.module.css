@@ -1,10 +1,11 @@
+/* frontend/src/EmailForm.module.css */
+
 .container {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     background-color: #4c1d95;
-    /* Cor roxa escura */
     position: fixed;
     top: 0;
     left: 0;
@@ -13,7 +14,7 @@
     overflow: hidden;
     padding: 0px;
     background-image: url('./assets/bg.png');
-    background-position: top+center;
+    background-position: top center;
     background-size: cover;
     background-repeat: no-repeat;
     z-index: -1;
@@ -29,16 +30,14 @@
     z-index: -1;
 }
 
-
 .formWrapper {
     width: 100%;
     max-width: 800px;
     padding: 24px;
     position: relative;
     z-index: 2;
+    margin-top: 120px;
 }
-
-
 
 /* Header style */
 .header {
@@ -56,51 +55,74 @@
     z-index: 10;
 }
 
-
-
 .logoGroup {
     margin-left: 100px;
     display: flex;
     align-items: center;
     gap: 15px;
+    animation: fadeInLeft 1s ease-out;
 }
 
 .logoOpsteam {
     height: 60px;
+    transition: transform 0.3s ease;
+}
+
+.logoOpsteam:hover {
+    transform: scale(1.05);
 }
 
 .badgeAws {
     height: 60px;
+    transition: transform 0.3s ease;
 }
 
+.badgeAws:hover {
+    transform: scale(1.05);
+}
 
 .menuWrapper {
     margin-right: 100px;
+    animation: fadeInRight 1s ease-out;
 }
 
 .menuIcon {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 19px;
     cursor: pointer;
     color: white;
     position: relative;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.menuIcon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
 
 .fullscreenMenu {
     position: fixed;
     top: 0;
-    left: 0;
+    right: -100%;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(10px);
+    background-color: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 999;
     color: white;
+    transition: right 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.fullscreenMenu.open {
+    right: 0;
 }
 
 .menuItems {
@@ -108,16 +130,36 @@
     flex-direction: column;
     gap: 24px;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 300;
 }
 
 .menuItem {
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.menuItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.menuItem:hover::before {
+    left: 100%;
 }
 
 .menuItem:hover {
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(10px);
 }
 
 .closeButton {
@@ -132,12 +174,24 @@
     color: white;
     cursor: pointer;
     padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.closeButton:hover {
+    transform: rotate(90deg);
 }
 
 /* Form content */
 .formContent {
     position: relative;
     z-index: 10;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 48px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.8s ease-out;
 }
 
 .title {
@@ -145,7 +199,16 @@
     font-weight: bold;
     color: white;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    margin-bottom: 36px;
+    font-size: 16px;
+    font-weight: 300;
 }
 
 .formFields {
@@ -167,79 +230,390 @@
     font-size: 1.3rem;
     color: #4c1d95;
     z-index: 2;
+    transition: all 0.3s ease;
 }
 
-.input,
-.textarea {
+.input {
     width: 100%;
-    padding: 12px 16px 12px 48px;
-    border-radius: 9999px;
-    background-color: rgba(243, 232, 255, 0.7);
-    border: none;
+    box-sizing: border-box;
+    padding: 14px 16px 14px 48px;
+    border-radius: 8px;
+    background-color: rgba(243, 232, 255, 0.85);
+    border: 2px solid transparent;
     outline: none;
     font-size: 16px;
     color: #000;
+    transition: all 0.3s ease;
 }
 
-.input:focus,
-.textarea:focus {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+.input:focus {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+    background-color: rgba(243, 232, 255, 0.95);
+    transform: translateY(-2px);
 }
 
-.input::placeholder,
-.textarea::placeholder {
+.input:focus+.fieldIcon {
+    color: #7c3aed;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: rgba(243, 232, 255, 0.5);
+}
+
+.input::placeholder {
     color: rgba(76, 29, 149, 0.6);
 }
 
-.textarea {
-    min-height: 100px;
-    border-radius: 24px;
-    resize: vertical;
+/* Info Box */
+.infoBox {
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    backdrop-filter: blur(5px);
 }
 
+.infoText {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.infoText strong {
+    color: white;
+    font-weight: 600;
+}
+
+/* PIN Alert */
+.pinAlert {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(124, 58, 237, 0.15));
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    animation: slideIn 0.5s ease-out;
+}
+
+.pinAlert p {
+    color: white;
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.pinAlert strong {
+    color: #e9d5ff;
+    font-weight: 600;
+}
+
+.pinInput {
+    width: 100%;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    border-radius: 8px;
+    color: #4c1d95;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pinInput:focus {
+    outline: none;
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    background: white;
+    transform: scale(1.02);
+}
+
+/* Buttons */
 .buttonContainer {
     display: flex;
     justify-content: center;
+    gap: 16px;
     margin-top: 24px;
 }
 
 .button {
-    padding: 12px 64px;
+    padding: 14px 48px;
     border-radius: 9999px;
-    background-color: transparent;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     color: white;
-    border: 2px solid white;
+    border: none;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.button:hover::before {
+    left: 100%;
 }
 
 .button:hover {
-    background-color: rgba(91, 33, 182, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
 }
 
+.button:active {
+    transform: translateY(-1px);
+}
+
+.secondaryButton {
+    padding: 14px 32px;
+    border-radius: 9999px;
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.secondaryButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Status Messages */
 .status {
-    margin-top: 16px;
     text-align: center;
-    font-size: 0.875rem;
-    color: #fff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin-top: 20px;
+    font-size: 15px;
     font-weight: 500;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.status.success {
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.status.error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.status.info {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* Security Note */
+.securityNote {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .formWrapper {
-        padding: 16px;
+    .header {
+        padding: 0 15px;
+        height: 70px;
+    }
+
+    .logoGroup {
+        margin-left: 20px;
+        gap: 10px;
+    }
+
+    .logoOpsteam,
+    .badgeAws {
+        height: 40px;
+    }
+
+    .menuWrapper {
+        margin-right: 20px;
+    }
+
+        .formWrapper {
+            width: 100%;
+            max-width: 800px;
+            padding: 24px;
+            position: relative;
+            z-index: 2;
+            margin-top: 140px;
+            /* aumenta o espaçamento do header */
+            box-sizing: border-box;
+        }
+
+    .formContent {
+        padding: 32px 20px;
     }
 
     .title {
         font-size: 28px;
     }
 
-    .circle1,
-    .circle2,
-    .circle3 {
-        opacity: 0.3;
+    .subtitle {
+        font-size: 14px;
     }
+
+    .menuItem {
+        font-size: 20px;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+    }
+
+    .button,
+    .secondaryButton {
+        width: 100%;
+    }
+
+    .infoBox,
+    .pinAlert {
+        padding: 16px;
+    }
+
+   /* Ajuste do input do PIN */
+   .pinInput {
+       width: 100%;
+       padding: 12px;
+       /* menor padding */
+       background: rgba(255, 255, 255, 0.9);
+       border: 2px solid rgba(139, 92, 246, 0.3);
+       border-radius: 8px;
+       color: #4c1d95;
+       font-size: 20px;
+       /* menor fonte */
+       text-align: center;
+       letter-spacing: 4px;
+       /* menor espaçamento */
+       font-weight: 600;
+       transition: all 0.3s ease;
+   }
+}
+
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 40px 60px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.modalLink {
+    font-size: 22px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.modalLink:hover {
+    color: #c4b5fd;
 }
